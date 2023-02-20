@@ -1,14 +1,76 @@
+
+
 <!DOCTYPE html>
 <html> 
 
 <head>
-    <meta charset=utf-8/>
-</head>
 
+    <meta charset=utf-8/>
+    <link rel="stylesheet" href="style.css">
+    <title>hw-05</title>
+    <script src="js/d3.v6.1.1/d3.min.js"></script>
+</head>
 
 <body>
 
+    <h1>hw-05: Interactive Graph with D3</h1>
+    <div class='charts'>
+        <div class="scatter">
+            <div class="chart">                        
+            </div>
+            <div class="selection">
+                
+                <h5>Select Coordinates to Plot:</h5>
+                <form > 
+                    <label> Select x-coordinate </label>  
+                    <select id="x-cord">  
+                    <option value = "1"> 1 </option>  
+                    <option value = "2"> 2 </option>  
+                    <option value = "3"> 3 </option> 
+                    <option value = "4"> 4 </option>
+                    <option value = "5"> 5 </option>
+                    <option value = "6"> 6 </option>
+                    <option value = "7"> 7 </option>
+                    <option value = "8"> 8 </option>
+                    <option value = "9"> 9 </option>
+                    </select>   
+                </form>
+                <br>
+                <form>  
+                    <label> Select y-coordinate </label>  
+                    <select id="y-cord">  
+                    
+                    <option value = "1"> 1 </option>  
+                    <option value = "2"> 2 </option>  
+                    <option value = "3"> 3 </option> 
+                    <option value = "4"> 4 </option>
+                    <option value = "5"> 5 </option>
+                    <option value = "6"> 6 </option>
+                    <option value = "7"> 7 </option>
+                    <option value = "8"> 8 </option>
+                    <option value = "9"> 9 </option>
+                    </select>   
+                </form> 
+                <br>
+                <button type="button" class="add-point">Add Point</button>
+                </div>
+        </div>        
+        <div class="bar-chart">
+        </div>
+    </div>
 
+    <div>
+
+        <h3>Acknowledgments</h3>
+        <div>
+            <ul>
+                <li>https://www.w3schools.com/graphics/svg_intro.asp</li>
+                <li>https://www.d3-graph-gallery.com/intro_d3js.html</li>
+                <li>https://www.fluidencodings.com/teaching-materials/cc-for-the-web/v1/page.php?pid=data-joins</li>
+            </ul>
+        </div>
+    </div>
+<script src="js/d3.v6.1.1/main.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,41 @@
+
+body {
+    font-family: Arial;
+}
+
+
+h1 {
+    text-align: center;
+}
+
+h3 {
+    text-align: center;
+}
+
+.scatter {
+    display: flex;
+}
+
+.chart {
+    width: 60%;
+}
+
+.selection {
+    align-self: center;
+    width: 40%;
+
+}
+
+.scatter-point {
+    fill: rgb(149, 0, 255);
+}
+
+.scatter-point:hover {
+    
+    fill: rgb(255, 157, 0);
+}
+
+.border-point {
+    stroke-width: 5px;
+    stroke: rgb(0, 140, 26);
+}
