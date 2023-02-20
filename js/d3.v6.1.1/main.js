@@ -40,7 +40,7 @@ d3.csv("data/scatter-data.csv").then((data) => {
             .append("circle")
                 .attr("cx", (d) => {return (X_SCALE(parseInt(d.x)) + MARGINS.left)})
                 .attr("cy", (d) => {return (MARGINS.top + (Y_SCALE(parseInt(d.y))))})
-                .attr("r", 10)
+                .attr("r", 12)
                 .attr("class", "scatter-point");
 
     SCATTER_FRAME.append("g")
@@ -64,9 +64,9 @@ d3.csv("data/scatter-data.csv").then((data) => {
         SCATTER_FRAME.append("circle")
                         .attr("cx", (d) => {return (X_SCALE(parseInt(new_x)) + MARGINS.left)})
                         .attr("cy", (d) => {return (MARGINS.top + (Y_SCALE(parseInt(new_y))))})
-                        .attr("r", 10)
+                        .attr("r", 12)
                         .attr("class", "scatter-point")
-                        .on("click", pointClickHandler);
+                        .on("click", onClick);
     }
     
     const BUTTON = d3.selectAll(".add-point").on("click", addPoint);
