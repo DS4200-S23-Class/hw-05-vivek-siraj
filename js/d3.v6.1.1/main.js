@@ -82,19 +82,16 @@ d3.csv("data/scatter-data.csv").then((data) => {
         
         }
 
-    // function for adding border to scatter points
     function addBorder(pointReference) {
         d3.select(pointReference).classed("border-point", !(d3.select(pointReference).classed("border-point")));
         
     }
 
-    // event handler for border and last point text
     function onClick() {
         addBorder(this)
         pointText(this)
     }
 
-    // event listener for clicking the scatter points
     const SCATTER_CLICK = d3.selectAll(".scatter-point");
     SCATTER_CLICK.on("click", onClick)
     
