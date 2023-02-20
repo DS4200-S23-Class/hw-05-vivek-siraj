@@ -89,14 +89,14 @@ d3.csv("data/scatter-data.csv").then((data) => {
     }
 
     // event handler for border and last point text
-    function pointClickHandler() {
+    function onClick() {
         addBorder(this)
         pointText(this)
     }
 
     // event listener for clicking the scatter points
     const SCATTER_CLICK = d3.selectAll(".scatter-point");
-    SCATTER_CLICK.on("click", pointClickHandler)
+    SCATTER_CLICK.on("click", onClick)
     
     
 });
