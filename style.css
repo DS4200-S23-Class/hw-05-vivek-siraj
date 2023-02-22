@@ -1,8 +1,6 @@
-
 body{
     font-family: Arial;
 }
-
 
 h1{
     text-align: center;
@@ -10,6 +8,18 @@ h1{
 
 h3{
     text-align: center;
+}
+
+.row {
+    display: flex;
+}
+
+.left {
+    flex: 60%;
+}
+
+.right {
+    flex: 40%;
 }
 
 .scatter{
@@ -39,3 +49,20 @@ h3{
     stroke-width: 5px;
     stroke: rgb(0, 140, 26);
 }
+
+.rect {
+    fill: steelblue;
+  }
+
+.tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 6px;
+    font: 12px sans-serif;
+    background: #ddd;
+    pointer-events: none;
+  }
+
+  .bar {
+    fill: steelblue;
+  }

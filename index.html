@@ -10,60 +10,65 @@
 </head>
 
 <body>
+    <!-- HEADER -->
+    <h1>hw-05</h1>
 
-    <h1>hw-05: Interactive Graph with D3</h1>
-        <div class='charts'>
-            <div class="scatter">
+    <!-- TWO COLUMN LAYOUT -->
+    <div class="row">
 
-                <!-- SCATTER PLOT-->
-                <div class='chart'></div>
+        <!-- LEFT -->
+        <div class="left">
+            <div class="scatter"></div>
+            <div class="bar"></div>
+        </div>
 
-                <!-- BUTTON SELECT ADD POINT -->
-                <div class="selection">
+        <!-- RIGHT -->
+        <div class="right">
+
+            <!-- BUTTON SELECT ADD POINT -->
+            <div class="selection">
                     
-                    <h5>Select Coordinates to Plot:</h5>
-                    <form > 
-                        <label> Select x-coordinate </label>  
-                        <select id="x-cord">  
-                        <option value = "1"> 1 </option>  
-                        <option value = "2"> 2 </option>  
-                        <option value = "3"> 3 </option> 
-                        <option value = "4"> 4 </option>
-                        <option value = "5"> 5 </option>
-                        <option value = "6"> 6 </option>
-                        <option value = "7"> 7 </option>
-                        <option value = "8"> 8 </option>
-                        <option value = "9"> 9 </option>
-                        </select>   
-                    </form>
-                    <br>
-                    <form>  
-                        <label> Select y-coordinate </label>  
-                        <select id="y-cord">  
-                        
-                        <option value = "1"> 1 </option>  
-                        <option value = "2"> 2 </option>  
-                        <option value = "3"> 3 </option> 
-                        <option value = "4"> 4 </option>
-                        <option value = "5"> 5 </option>
-                        <option value = "6"> 6 </option>
-                        <option value = "7"> 7 </option>
-                        <option value = "8"> 8 </option>
-                        <option value = "9"> 9 </option>
-                        </select>   
-                    </form> 
-                    <br>
-                    <button type="button" class="add-point">Add Point</button>
-                    </div>
-            </div>        
-
-            <div class="bar-chart">
+                <h5>Select Coordinates to Plot:</h5>
+                <form > 
+                    <label> Select x-coordinate </label>  
+                    <select id="x-cord">  
+                    <option value = "1"> 1 </option>  
+                    <option value = "2"> 2 </option>  
+                    <option value = "3"> 3 </option> 
+                    <option value = "4"> 4 </option>
+                    <option value = "5"> 5 </option>
+                    <option value = "6"> 6 </option>
+                    <option value = "7"> 7 </option>
+                    <option value = "8"> 8 </option>
+                    <option value = "9"> 9 </option>
+                    </select>   
+                </form>
+                <br>
+                <form>  
+                    <label> Select y-coordinate </label>  
+                    <select id="y-cord">                      
+                    <option value = "1"> 1 </option>  
+                    <option value = "2"> 2 </option>  
+                    <option value = "3"> 3 </option> 
+                    <option value = "4"> 4 </option>
+                    <option value = "5"> 5 </option>
+                    <option value = "6"> 6 </option>
+                    <option value = "7"> 7 </option>
+                    <option value = "8"> 8 </option>
+                    <option value = "9"> 9 </option>
+                    </select>   
+                </form> 
+                <br>
+                <button type="button" class="add-point">Add Point</button>
             </div>
 
         </div>
 
-    <div>
+    </div>
 
+
+    <!-- ACKNOWLEDGEMENTS FOOTER -->
+    <div>
         <h3>Acknowledgments</h3>
         <div>
             <ul>
@@ -73,7 +78,9 @@
             </ul>
         </div>
     </div>
-<script src="js/d3.v6.1.1/main.js"></script>
+
+    <script src="/main.js"></script>
+
 </body>
 
 </html>

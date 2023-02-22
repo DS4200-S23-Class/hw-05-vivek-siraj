@@ -1,29 +1,19 @@
-
 const FRAME_HEIGHT = 500;
 const FRAME_WIDTH = 500;
 const MARGINS = {left: 50, right: 50, top: 50, bottom: 50};
 
-
-const SCATTER_FRAME = d3.select('.chart')
+const SCATTER_FRAME = d3.select('.scatter')
                     .append("svg")
                     .attr("height", FRAME_HEIGHT)
                     .attr("width", FRAME_WIDTH)
                     .attr("class", "frame");
-const SCATTER_HEIGHT = FRAME_HEIGHT - MARGINS.top - MARGINS.bottom;
-const SCATTER_WIDTH = FRAME_WIDTH - MARGINS.left - MARGINS.right;
-
-const BAR_FRAME = d3.select('.bar-chart')
-                    .append("svg")
-                    .attr("height", FRAME_HEIGHT)
-                    .attr("width", FRAME_WIDTH)
-                    .append('g')
-                    .attr("class", "frame");
-const BAR_HEIGHT = FRAME_HEIGHT - MARGINS.top - MARGINS.bottom;
-const BAR_WIDTH = FRAME_WIDTH - MARGINS.left - MARGINS.right;
 
 const SELECT_FRAME = d3.select('.selection')
                         .append("div")
                         .attr("class", "last-point");
+
+const GRAPH_HEIGHT = FRAME_HEIGHT - MARGINS.top - MARGINS.bottom;
+const GRAPH_WIDTH = FRAME_WIDTH - MARGINS.left - MARGINS.right;
 
 d3.csv("data/scatter-data.csv").then((data) => {
 
@@ -34,12 +24,12 @@ d3.csv("data/scatter-data.csv").then((data) => {
                                 {return parseInt(d.y)});
     const X_SCALE = d3.scaleLinear()
                             .domain([0, (MAX_X)])
-                            .range([0, SCATTER_WIDTH]);
+                            .range([0, GRAPH_WIDTH]);
     
 
     const Y_SCALE = d3.scaleLinear()
                         .domain([0, (MAX_Y)])
-                        .range([SCATTER_HEIGHT, 0]);
+                        .range([GRAPH_HEIGHT, 0]);
 
 
     SCATTER_FRAME.selectAll("circle")
@@ -53,7 +43,7 @@ d3.csv("data/scatter-data.csv").then((data) => {
 
     SCATTER_FRAME.append("g")
         .attr("transform", "translate(" + MARGINS.top + "," + 
-        (SCATTER_HEIGHT + MARGINS.top) + ")")
+        (GRAPH_HEIGHT + MARGINS.top) + ")")
         .call(d3.axisBottom(X_SCALE).ticks(10))
             .attr("font-size", "15px");
     
@@ -108,70 +98,46 @@ d3.csv("data/scatter-data.csv").then((data) => {
 
 
 
-// Define the tooltip element
-const TOOLTIP = d3.select("bar-chart")
-  .append("div")
-  .attr("class", "tooltip")
-  .style("opacity", 0);
+const BAR_FRAME = d3.select(".bar")
+                    .append("svg")
+                    .attr("width", FRAME_WIDTH + MARGINS.left + MARGINS.right)
+                    .attr("height", FRAME_HEIGHT + MARGINS.top + MARGINS.bottom)
+                    .append("g")
+                    .attr("transform",
+                    "translate(" + MARGINS.left + "," + MARGINS.top + ")");
+
 
 d3.csv("data/bar-data.csv").then((data) => {
-
-
-    const MAX_X = 1 + d3.max(data, (d) => 
-                                {return parseInt(d.x)});
     
-    const MAX_Y = 1 + d3.max(data, (d) => 
-                                {return parseInt(d.y)});
-                                
-    const X_SCALE = d3.scaleLinear()
-                            .domain([0, (MAX_X)])
-                            .range([0, BAR_WIDTH]);
+  const X = d3.scaleBand()
+  .range([ 0, FRAME_WIDTH])
+  .domain(data.map(d => d.column1))
+  .padding(0.2);
 
-    const Y_SCALE = d3.scaleLinear()
-                        .domain([0, (MAX_Y)])
-                        .range([BAR_HEIGHT, 0]);
-
-      // Set the domain of the x and y scales
-    X_SCALE.domain(data.map(d => d.name));
-    Y_SCALE.domain([0, d3.max(data, d => d.value)]);
+  BAR_FRAME.append("g")
+        .attr("transform", "translate(0," + FRAME_HEIGHT + ")")
+        .call(d3.axisBottom(X))
+        .selectAll("text")
+            .attr("transform", "translate(-10,0)rotate(-45)")
+            .style("text-anchor", "end");
 
 
-    // Create the x and y axes
-    const xAxis = d3.axisBottom(X_SCALE);
-    const yAxis = d3.axisLeft(Y_SCALE);
+  const Y = d3.scaleLinear()
+        .domain([0, d3.max(data, d => parseInt(d.column2))])
+        .range([ FRAME_HEIGHT, 0]);
 
-    BAR_FRAME.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + BAR_HEIGHT + ")")
-    .call(xAxis);
+  BAR_FRAME.append("g")
+        .call(d3.axisLeft(Y));
+ 
 
-    BAR_FRAME.append("g")
-    .attr("class", "y axis")
-    .call(yAxis);
-
-    BAR_FRAME.selectAll(".bar-chart")
+  BAR_FRAME.selectAll(".bar")
         .data(data)
-        .enter().append("rect")
+        .enter()
+        .append("rect")
         .attr("class", "bar")
-        .attr("x", d => X_SCALE(d.name))
+        .attr("X", (d) => (X_SCALE(d.category) + MARGINS.left))
+        .attr("y", (d) => (Y_SCALE(d.amount) + MARGINS.top))
         .attr("width", X_SCALE.bandwidth())
-        .attr("y", d => Y_SCALE(d.value))
-        .attr("height", d => BAR_HEIGHT - Y_SCALE(d.value))
-        .on("mouseover", function(d) {
-            // Highlight the bar and show the tooltip
-            d3.select(this)
-            .style("fill", "orange");
+        .attr("height", (d) => GRAPH_HEIGHT - Y_SCALE(d.amount));
 
-            TOOLTIP.transition()
-            .duration(200)
-            .style("opacity", 0.9);
-
-            TOOLTIP.html(d.name + "<br/>" + d.value)
-            .style("left", (d3.event.pageX) + "px")
-            .style("top", (d3.event.pageY - 28) + "px");
-
-        })
-
-
-});
-
+})
