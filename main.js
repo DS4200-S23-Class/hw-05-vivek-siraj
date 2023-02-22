@@ -8,6 +8,12 @@ const SCATTER_FRAME = d3.select('.scatter')
                     .attr("width", FRAME_WIDTH)
                     .attr("class", "frame");
 
+const BAR_FRAME = d3.select(".bar")
+                    .append("svg")
+                    .attr("width", FRAME_WIDTH)
+                    .attr("height", FRAME_HEIGHT)
+                    .attr("class", "frame");
+                    
 const SELECT_FRAME = d3.select('.selection')
                         .append("div")
                         .attr("class", "last-point");
@@ -96,48 +102,59 @@ d3.csv("data/scatter-data.csv").then((data) => {
     
 });
 
-
-
-const BAR_FRAME = d3.select(".bar")
-                    .append("svg")
-                    .attr("width", FRAME_WIDTH + MARGINS.left + MARGINS.right)
-                    .attr("height", FRAME_HEIGHT + MARGINS.top + MARGINS.bottom)
-                    .append("g")
-                    .attr("transform",
-                    "translate(" + MARGINS.left + "," + MARGINS.top + ")");
-
-
 d3.csv("data/bar-data.csv").then((data) => {
-    
-  const X = d3.scaleBand()
-  .range([ 0, FRAME_WIDTH])
+     // X axis
+  const x = d3.scaleBand()
+  .range([ 0, width ])
   .domain(data.map(d => d.column1))
   .padding(0.2);
 
-  BAR_FRAME.append("g")
-        .attr("transform", "translate(0," + FRAME_HEIGHT + ")")
-        .call(d3.axisBottom(X))
-        .selectAll("text")
-            .attr("transform", "translate(-10,0)rotate(-45)")
-            .style("text-anchor", "end");
+svg.append("g")
+  .attr("transform", "translate(0," + FRAME_HEIGHT + ")")
+  .call(d3.axisBottom(x))
+  .selectAll("text")
+    .attr("transform", "translate(-10,0)rotate(-45)")
+    .style("text-anchor", "end");
 
+// Add Y axis
+const y = d3.scaleLinear()
+  .domain([0, d3.max(data, d => parseInt(d.column2))])
+  .range([ height, 0]);
+svg.append("g")
+  .call(d3.axisLeft(y));
 
-  const Y = d3.scaleLinear()
-        .domain([0, d3.max(data, d => parseInt(d.column2))])
-        .range([ FRAME_HEIGHT, 0]);
+// Bars
+const bars = svg.selectAll("bar")
+  .data(data)
+  .enter()
+  .append("rect")
+    .attr("class", "bar")
+    .attr("x", d => x(d.column1))
+    .attr("y", d => y(d.column2))
+    .attr("width", x.bandwidth())
+    .attr("height", d => height - y(d.column2))
+    .on("mouseover", function(d) {
+      // Highlight the bar and show the tooltip
+      d3.select(this)
+        .style("fill", "orange");
 
-  BAR_FRAME.append("g")
-        .call(d3.axisLeft(Y));
- 
+      const tooltip = d3.select("#tooltip");
+      tooltip.transition()
+        .duration(200)
+        .style("opacity", 0.9);
 
-  BAR_FRAME.selectAll(".bar")
-        .data(data)
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("X", (d) => (X_SCALE(d.category) + MARGINS.left))
-        .attr("y", (d) => (Y_SCALE(d.amount) + MARGINS.top))
-        .attr("width", X_SCALE.bandwidth())
-        .attr("height", (d) => GRAPH_HEIGHT - Y_SCALE(d.amount));
+      tooltip.html(d.column1 + "<br/>" + d.column2)
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY - 28) + "px");
+    })
+    .on("mouseout", function(d) {
+      // Unhighlight the bar and hide the tooltip
+      d3.select(this)
+        .style("fill", "steelblue");
 
-})
+      const tooltip = d3.select("#tooltip");
+      tooltip.transition()
+        .duration(500)
+        .style("opacity", 0);
+    });
+});
